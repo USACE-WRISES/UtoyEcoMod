@@ -3,15 +3,15 @@ title: 'Ecological Modeling for Utoy Creek Watershed Restoration'
 author: "Liya Abera, Garrett Menichino, and Kyle McKay"
 date: "July 2024"
 output:
-  word_document:
-    toc: yes
-    toc_depth: '5'
   html_document:
     toc: yes
     toc_depth: 5
     toc_float:
       collapsed: no
       smooth_scroll: yes
+  word_document:
+    toc: yes
+    toc_depth: '5'
 ---
 
 
@@ -206,7 +206,22 @@ Insert description, equations, and methods as needed.
 
 ## *Riparian Ecosystem Function Index (REFI) (KYLE)*
 
-Insert description of REFI. This can be shorter since it is documented elsewhere.
+Insert description of REFI. This can be shorter since it is documented elsewhere. Philosophy of variables and indicators.
+
+
+### *Module 1: Instream Outcomes*
+
+Insert description, equations, and methods as needed.
+
+
+### *Module 2: Unique and Important Habitats*
+
+Insert description, equations, and methods as needed.
+
+### *Module 3: Connectivity*
+
+Insert description, equations, and methods as needed.
+
 
 
 ```{r}
