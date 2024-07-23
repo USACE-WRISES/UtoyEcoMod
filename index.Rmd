@@ -3,15 +3,15 @@ title: 'Ecological Modeling for Utoy Creek Watershed Restoration'
 author: "Liya Abera, Garrett Menichino, and Kyle McKay"
 date: "July 2024"
 output:
+  word_document:
+    toc: yes
+    toc_depth: '5'
   html_document:
     toc: yes
     toc_depth: 5
     toc_float:
       collapsed: no
       smooth_scroll: yes
-  word_document:
-    toc: yes
-    toc_depth: '5'
 ---
 
 
@@ -141,6 +141,29 @@ Insert introduction.
 
 Insert description of UIM.
 
+### *Model Structure and Concept (Liya)*
+
+Insert description.
+
+
+### *Module 1: Hydrology and Hydraulic (Liya)*
+
+Insert description, equations, and methods as needed.
+
+Probably about 1 paragraph per variable.
+
+### *Module 2: Geomorphology (Liya)*
+
+Insert description, equations, and methods as needed.
+
+### *Module 3: Habitat*
+
+Insert description, equations, and methods as needed.
+
+### *Module 4: Connectivity (Kyle)*
+
+Insert description, equations, and methods as needed.
+
 
 
 ```{r}
@@ -181,7 +204,7 @@ Insert description of UIM.
 
 
 
-## *Riparian Ecosystem Function Index (REFI)*
+## *Riparian Ecosystem Function Index (REFI) (KYLE)*
 
 Insert description of REFI. This can be shorter since it is documented elsewhere.
 
