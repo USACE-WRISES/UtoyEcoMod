@@ -1,17 +1,17 @@
 ---
-title: 'Decision Support Modeling for Utoy Creek'
-author: "Kyle McKay and Liya Abera"
+title: 'Ecological Modeling for Utoy Creek Watershed Restoration'
+author: "Liya Abera, Garrett Menichino, and Kyle McKay"
 date: "July 2024"
 output:
-  word_document:
-    toc: yes
-    toc_depth: '5'
   html_document:
     toc: yes
     toc_depth: 5
     toc_float:
       collapsed: no
       smooth_scroll: yes
+  word_document:
+    toc: yes
+    toc_depth: '5'
 ---
 
 
@@ -21,13 +21,12 @@ Environmental Laboratory
 U.S. Army Corps of Engineers  
 Email: kyle.mckay@usace.army.mil
 
-**Model Accessibility**: An interactive version of this report may be accessed [here](https://usace-wrises.github.io/UtoyDecisions/). The underlying numerical code as well as an MS Word version of this analysis may be downloaded from [this github repository](https://github.com/USACE-WRISES/UtoyDecisions).
+**Model Accessibility**: An interactive version of this report may be accessed [here](https://usace-wrises.github.io/UtoyEcoMod/). The underlying numerical code as well as an MS Word version of this analysis may be downloaded from [this github repository](https://github.com/USACE-WRISES/UtoyEcoMod.git).
 
 **DISCLOSURE**: This website represents a preliminary and working version of decision models for a stream restoration study in Utoy Creek, Atlanta, Georgia. The project is led by the Mobile District of the U.S. Army Corps of Engineers (USACE) in partnership with the City of Atlanta. This site **DOES NOT** reflect agency findings or outcomes, and this is merely intended as documentation of methods and working notes for internal use. Please refer to the project manager for the Utoy Creek study, Alex Smith (alexandria.n.smith@usace.army.mil), for up-to-date information about the project. A final version of this report will ultimately be included as an appendix to the more detailed feasibility study report.  
 
 **MISSING DATA AND METHODS**: This analysis is missing a variety of information prior to sharing, specifically:  
 - Check that the objectives presented in Section 2.1 align with project objectives.  
-- This version only includes placeholder (i.e., fake) cost data.  
 - Ecological data are being quality controlled and have known erros at this point (i.e., equal riparian areas for left and right bank). Additionally, we need to revisit whether year-0 should be equal to the FWOP for all alternatives.  
 - The Utoy Instream Model is also under development and subject to change. For instance, the current version removes hydrologic metrics as well as a few geomorphic metrics (BEHI). 
 
@@ -55,9 +54,6 @@ library(viridis)
 
 #Import ecological modeling inputs
 eco <- read.csv("Utoy_Phase 2_EcoInputs_2024-07-20_EcoIn.csv", header=TRUE, dec=".", na.strings="NA", stringsAsFactors = FALSE)
-
-#Import cost data
-cost <- read.csv("Utoy_Phase 2_EcoInputs_2024-07-20_CostIn.csv", header=TRUE, dec=".", na.strings="NA", stringsAsFactors = FALSE)
 ```
 
 
@@ -67,11 +63,9 @@ The Utoy Creek watershed drains the southwest portion of the City of Atlanta int
 
 ![*Figure 1. Overview of the Utoy Creek watershed.*](Utoy_Watershed_Map.png)
 
-In partnership with the City of Atlanta, the USACE's Mobile District is leading a feasibility study of potential stream restoration actions in the Utoy Creek watershed. The study is authorized through the USACE's continuing authorities program for aquatic ecosystem restoration (Section 206, WRDA 1996). In summer 2023, the project development team conducted preliminary project planning activities such as identification of problems and opportunities, setting ecosystem restoration objectives, and screening potential restoration sites. From fall 2023 to summer 2024, the project development team advanced restoration planning through actions such as field data collection, design of alternatives, ecological modeling, cost estimation, analysis of socio-economic benefits, and public and interagency meetings. This report summarizes various aspects of these activities for the purpose of informing restoration decisions and recommendations for the study as a whole. Specifically, this document presents cost-effectiveness and incremental cost analyses to guide development of the agency's recommended restoration plan.
+In partnership with the City of Atlanta, the USACE's Mobile District is leading a feasibility study of potential stream restoration actions in the Utoy Creek watershed. The study is authorized through the USACE's continuing authorities program for aquatic ecosystem restoration (Section 206, WRDA 1996). In summer 2023, the project development team conducted preliminary project planning activities such as identification of problems and opportunities, setting ecosystem restoration objectives, and screening potential restoration sites. From fall 2023 to summer 2024, the project development team advanced restoration planning through actions such as field data collection, design of alternatives, ecological modeling, cost estimation, analysis of socio-economic benefits, and public and interagency meetings. This report summarizes...Specifically, this document...
 
-Cost-effectiveness and incremental cost analyses (CEICA) are a set of methods for comparing non-monetary ecological benefits with monetary investment costs. Cost-effectiveness analysis provides a mechanism for examining the efficiency of alternative actions (Robinson et al. 1995). An "efficiency frontier" identifies all plans that efficiently provide benefits on a *per cost basis*. Incremental cost analysis is conducted on the set of cost-effective plans. This technique sequentially compares each plan to all higher cost plans to reveal changes in unit cost as output levels increase and eliminates plans that do not efficiently provide benefits on an *incremental unit cost basis*. Collectively, these techniques help USACE planning teams assess the question of "Is the next increment of ecological benefit worth the next increment of investment cost?"
-
-This report applies CEICA in multiple contexts to inform decisions in the Utoy Creek watershed. In Chapter 2, the overarching project planning framework is presented that includes the plan formulation strategy along with an overview of ecological benefits and cost estimates. These data provide the fundamental inputs to CEICA and are presented here to contextualize decision making. Additional information on these analyses may be found in other portions of the feasibility report documents. In Chapter 3, CEICA is conducted for individual restoration sites separately to identify recommended outcomes based on ecological criteria (i.e., the authorized purpose). Chapter 4 conducts CEICA at the watershed-scale using the site-scale recommendations from the prior chapter with the goal of identifying an effective portfolio of investments based on ecological benefits. In Chapter 5, a more comprehensive view of project benefits is undertaken by applying CEICA to understand the effects of portfolios of actions on social outcomes. Chapter 6 concludes with a synthesis of the recommendations from prior analyses.
+This report does the following...Our objectives are...
 
 
 # **2. Project Planning Framework**   
@@ -130,506 +124,114 @@ knitr::kable(Table01, caption="Table 1. Overview of the three-phase approach to 
 ```
 
 
-This report focuses on examining the relative merits of different restoration actions at a site-scale as well as the merits of those actions at a watershed-scale. Decision-analysis is intimately tied to the development of decision alternatives (i.e., one never recommends an alternative not considered). Therefore, the plan formulation strategy is briefly reviewed for the site- and watershed-scale activities (i.e., Phases 2 and 3). For each potential restoration site, the entirety of the site was visited by walking the length of the reach in large interdisciplinary teams. During these visits, preliminary restoration concepts were discussed and appropriate measures were identified. Following field activities, a series of working meetings were conducted to refine these ideas into conceptual alternatives. The interactive software miro was used to facilitate input and notes from all disciplines and team members. These [miro boards](https://miro.com/app/board/uXjVN9DAdvA=/) served as a knowledge gathering space for conceptual alternatives. Site-scale actions were then formalized into design-oriented formats to asses quantities of restoration needed for ecological and cost models. Site-scale recommendations were developed independently (Chapter 3), and then all permutations of sites were considered at the watershed scale (Chapters 4 and 5).
+Blah, blah, blah.
 
-## *Ecological Models*
 
-Given a set of site-scale alternatives, an analysis of ecological benefits is required to quantitatively compare the relative merits of actions. For Utoy Creek, two ecological models were used to assess instream and riparian outcomes with the intent of directly aligning models with the project objectives identified above (Figure 2). The Utoy Instream Model (UIM) was developed for this project to capture all aquatic benefits, and the domain of this model can be conceptualized as everything from streambank-to-streambank. The Riparian Ecosystem Function Index (REFI) is a generic ecological model being developed by ERDC (Wiest et al. *Forthcoming*) with the explicit goal of assessing the ecological importance and integrity of riparian zones, which can be conceptualized as everything from the top-of-bank outward.
+## *Site Screening*
 
-![*Figure 2. Overview of the general structure of ecological models used in the Utoy Creek study to quantify ecological benefits.*](Utoy_Decision_Figures_2024-07-20_ModelOverview.png)
+Insert brief description of site screening?
 
-The Riparian Ecosystem Function Index (REFI) was developed as a rapid method for quantifying ecological benefits of riparian zones. Specifically, the model was designed to complement a [huge variety of stream models](https://gtmenichino.github.io/RiverEngineeringResources/assessment), which typically consider riparian zones only as a benefit to stream functions (rather than as ecologically beneficial in their own right). The model assesses outcomes relative to three overarching functions, which result in module-scale indices that are then arithmetically averaged into an overaching index (i.e., a zero to one metric of quality). The first module focuses on a traditional notion of riparian zones tied to stream functions and addresses issues such as hydrology attenuation and nutrient uptake. The second module addresses the role of riparian areas as habitats for unique assemblages of organisms. The third module examine the role of riparian areas as migratory pathways for organisms moving laterally from channel to floodplain (e.g., salamanders) as well as longitudinally along river corridors. 
 
-The Utoy Instream Model (UIM) was developed for this feasibility study to closely align quantitative outcomes with project objectives. The models are directly tied to and built from ecological models used to quantify restoration outcomes in the neighboring Proctor Creek watershed (McKay et al. 2018ab). Additional functions and outcomes were added to these models in order to align the UIM with other stream functions (Fischenich 2006) as well as newer stream assessment approaches (McKay et al. 2024). The UIM is organized around four modules, which roughly correspond to the widely used stream functions pyramid (Harman et al. 2012). For the UIM, functions related to hydrology and hydraulics were combined to better align with the USACE's budget criteria for ecosystem restoration (i.e., "hydrologic character"). 
+# **2. Ecological Model Development**   
 
-The quantitative tools for both models are described elsewhere in the feasibility report. In general, all models were documented and tested according to best practices in ecological modeling (Grant and Swannack 2008, McKay et al. 2022). Data were stored in a centralized database, which can be downloaded from [this report's github repository](https://github.com/USACE-WRISES/UtoyDecisions). Both models were executed using the [R Statistical Software](https://cran.r-project.org/), and code is available in the same repository. 
+Insert introduction. 
 
-Each model was executed for four points in time for all alternatives. Year-0 was assumed to be the existing condition and represents the pre-restoration, degraded condition of the site. Year-2 represents a point in time reflecting an initial increase in ecological benefits associated with the project actions. In general, this time frame reflects most instream benefits of the project, but riparian outcomes would not fully be captured. Year-10 was then assessed as a representative time frame for obtaining many of the riparian benefits of actions. Year-50 represents a fully mature site with a developed multi-story riparian canopy and instream conditions adjusted to a new dynamic equilibrium. For all sites, the future without project was assumed equal to the existing condition, which assumes no future degradation. 
 
-Instream and riparian outcomes were summarized as "habitat units" capturing the quantity and quality of the ecosystem at a given point in time. The model outputs were summed to derive a metric of the overall ecological benefit of ecosystem restoration. Table 2 presents an example of ecological model outputs for each time frame at Site-17F in the Utoy Creek watershed. 
+## *Utoy Instream Model (UIM)*
+
+Insert description of UIM.
+
+
 
 ```{r}
-#Dataset size
-ndata <- length(eco$ReachID)
-
-#Summary info on sites 
-sites <- unique(eco$ReachID)
-nsites <- length(sites)
-
-#Isolate restoration alternatives for each site
-alts <- list()
-for(i in 1:nsites){alts[[i]] <- cost$SiteAction[which(cost$ReachID == sites[i])]}
-
-#Count the number of actions at each site
-nactions <- c()
-for(i in 1:nsites){nactions[i] <- length(alts[[i]])}
-nactions.total <- sum(nactions)
-
-##########
-#RIPARIAN OUTCOMES
-#Riparian models are taken from the Riparian Ecological Functions Index (Wiest et al, in review).
-
-#REFI instream outcomes
-  eco$REFI_Instream_left <- (eco$Watershed_Runoff_left + eco$Hydrologic_Connection_left + eco$Streambank_Processes_left +
-                           eco$Energy_Nutrients_Sediment_left + eco$Riparian_Filtering_left) / 5 / 15
-  eco$REFI_Instream_right <- (eco$Watershed_Runoff_right + eco$Hydrologic_Connection_right + eco$Streambank_Processes_right +
-                           eco$Energy_Nutrients_Sediment_right + eco$Riparian_Filtering_right) / 5 / 15
-#REFI habitat outcomes
-  eco$REFI_Habitat_left <- (eco$Plant_Community_left + eco$Canopy_Habitat_left + eco$Understory_Habitat_left +
-                           eco$Floor_Habitat_left + eco$Stream_Habitat_left) / 5 / 15
-  eco$REFI_Habitat_right <- (eco$Plant_Community_right + eco$Canopy_Habitat_right + eco$Understory_Habitat_right +
-                           eco$Floor_Habitat_right + eco$Stream_Habitat_right) / 5 / 15
-#REFI connectivity outcomes
-  eco$REFI_Connectivity_left <- (eco$Lateral_Processes_left + eco$Longitudinal_Movement_Habitat_left) / 2 / 15
-  eco$REFI_Connectivity_right <- (eco$Lateral_Processes_right + eco$Longitudinal_Movement_Habitat_right) / 2 / 15
-#REFI total index
-  eco$REFI_Total_left <- (eco$REFI_Instream_left + eco$REFI_Habitat_left + eco$REFI_Connectivity_left) / 3
-  eco$REFI_Total_right <- (eco$REFI_Instream_right + eco$REFI_Habitat_right + eco$REFI_Connectivity_right) / 3
-#REFI habitat units
-  eco$REFI_HU_left <- eco$REFI_Total_left * eco$Riparian_Area_ac_left
-  eco$REFI_HU_right <- eco$REFI_Total_right * eco$Riparian_Area_ac_right
-  eco$REFI_HU_total <- eco$REFI_HU_left + eco$REFI_HU_right
-
-##########
-#INSTREAM OUTCOMES
-#Utoy Instream Model (UIM) is strongly based on the Phase 2 Proctor Creek Ecological Models.
-
-#UIM hydrologic and hydraulic outcomes (hydro)
-  eco$UIM_hydro_flashiness <- 1
-  eco$UIM_hydro_peak <- 1
-  eco$UIM_hydro_bank_height <- eco$Bank_Height_Ratio / 20
-  eco$UIM_hydro_velocity <- ifelse(eco$Site_Velocity_ft_s > 2 * eco$Reference_Velocity_ft_s, 0, 
-                                   abs(eco$Reference_Velocity_ft_s - eco$Site_Velocity_ft_s)/eco$Reference_Velocity_ft_s)
-  eco$UIM_hydro_area <- (abs(eco$Site_Area_ft2-eco$Reference_Area_ft2)/eco$Site_Area_ft2) / 20
-  eco$UIM_hydro <- (eco$UIM_hydro_flashiness + eco$UIM_hydro_peak + eco$UIM_hydro_bank_height + eco$UIM_hydro_velocity + eco$UIM_hydro_area) / 5
-
-#UIM geomorphic index (geomorph)
-  eco$UIM_geomorph_alteration <- eco$Channel_Alteration / 20
-  eco$UIM_geomorph_evolution <- eco$Channel_Stability_Evolution / 20
-  eco$UIM_geomorph_bank <- eco$Bank_Stability / 20
-  #eco$UIM_geomorph_BEHI <- 1
-  eco$UIM_geomorph <- (eco$UIM_geomorph_alteration + eco$UIM_geomorph_evolution + eco$UIM_geomorph_bank) / 3
-
-#UIM instream habitat (habitat)
-  eco$UIM_habitat <- (eco$Habitat_Available_Cover + eco$Large_Wood + eco$Velocity_Depth_Regime + eco$Substrate_Deposition_Embeddedness) / 4 / 20
-
-#UIM longitudinal connectivity (connectivity)
-  eco$UIM_connectivity <- (eco$Aquatic_Organism_Passage/20 + eco$Material_Transport/20 + eco$Passage_Rate) / 3
-
-#UIM total
-  eco$UIM_total <- (eco$UIM_hydro + eco$UIM_geomorph + eco$UIM_habitat + eco$UIM_connectivity) / 4
-  eco$UIM_area_ac <- (eco$Reach_Length_ft * eco$Reach_Top_Width_ft / 43560)
-  eco$UIM_HU <- eco$UIM_total * eco$UIM_area_ac
-
-##########
-#TOTAL HABITAT
-  eco$Utoy_HU <- eco$REFI_HU_total + eco$UIM_HU
+# #INSTREAM OUTCOMES
+# #Utoy Instream Model (UIM) is strongly based on the Phase 2 Proctor Creek Ecological Models.
+# 
+# #UIM hydrologic and hydraulic outcomes (hydro)
+#   eco$UIM_hydro_flashiness <- 1
+#   eco$UIM_hydro_peak <- 1
+#   eco$UIM_hydro_bank_height <- eco$Bank_Height_Ratio / 20
+#   eco$UIM_hydro_velocity <- ifelse(eco$Site_Velocity_ft_s > 2 * eco$Reference_Velocity_ft_s, 0, 
+#                                    abs(eco$Reference_Velocity_ft_s - eco$Site_Velocity_ft_s)/eco$Reference_Velocity_ft_s)
+#   eco$UIM_hydro_area <- (abs(eco$Site_Area_ft2-eco$Reference_Area_ft2)/eco$Site_Area_ft2) / 20
+#   eco$UIM_hydro <- (eco$UIM_hydro_flashiness + eco$UIM_hydro_peak + eco$UIM_hydro_bank_height + eco$UIM_hydro_velocity + eco$UIM_hydro_area) / 5
+# 
+# #UIM geomorphic index (geomorph)
+#   eco$UIM_geomorph_alteration <- eco$Channel_Alteration / 20
+#   eco$UIM_geomorph_evolution <- eco$Channel_Stability_Evolution / 20
+#   eco$UIM_geomorph_bank <- eco$Bank_Stability / 20
+#   #eco$UIM_geomorph_BEHI <- 1
+#   eco$UIM_geomorph <- (eco$UIM_geomorph_alteration + eco$UIM_geomorph_evolution + eco$UIM_geomorph_bank) / 3
+# 
+# #UIM instream habitat (habitat)
+#   eco$UIM_habitat <- (eco$Habitat_Available_Cover + eco$Large_Wood + eco$Velocity_Depth_Regime + eco$Substrate_Deposition_Embeddedness) / 4 / 20
+# 
+# #UIM longitudinal connectivity (connectivity)
+#   eco$UIM_connectivity <- (eco$Aquatic_Organism_Passage/20 + eco$Material_Transport/20 + eco$Passage_Rate) / 3
+# 
+# #UIM total
+#   eco$UIM_total <- (eco$UIM_hydro + eco$UIM_geomorph + eco$UIM_habitat + eco$UIM_connectivity) / 4
+#   eco$UIM_area_ac <- (eco$Reach_Length_ft * eco$Reach_Top_Width_ft / 43560)
+#   eco$UIM_HU <- eco$UIM_total * eco$UIM_area_ac
 
 ##########
 #SHOW AN EXAMPLE SITE (17F)
-Table02 <- cbind(eco$ReachID, eco$SiteAction, eco$Year,
-                 round(eco$REFI_Total_left,2), 
-                 round(eco$Riparian_Area_ac_left,2), 
-                 round(eco$REFI_HU_left,2), 
-                 round(eco$REFI_Total_right,2), 
-                 round(eco$Riparian_Area_ac_right,2), 
-                 round(eco$REFI_HU_right,2),
-                 round(eco$UIM_total,2), 
-                 round(eco$UIM_area_ac,2), 
-                 round(eco$UIM_HU,2),
-                 round(eco$Utoy_HU,2))
-Table02 <- Table02[1:16,]
-colnames(Table02) <- c("Site", "Alternative", "Year", 
-                       "Riparian Quality, Left", "Riparian Area, Left (ac)", "Riparian Habitat, Left (HU)",
-                       "Riparian Quality, Right", "Riparian Area, Right (ac)", "Riparian Habitat, Right (HU)",
-                       "Instream Quality", "Instream Area (ac)", "Instream Habitat (HU)",
-                       "Total Habitat (HU)")
-rownames(Table02) <- NULL
-knitr::kable(Table02, caption="Table 2. Example of ecological benefits computations for Site-17F.", align='c') 
-```
 
-Ecological models were executed for specific points in time over the project life, but decision models require a time-averaged or "annualized" metric of ecological benefit for comparison with monetary investments. Ecological outcomes were annualized using the [ecorest](https://cran.r-project.org/web/packages/ecorest/index.html) R-package (McKay and Hernandez-Abrams 2020). Figure 3 shows an example of the annualized process for two alternatives at Site-17F to demonstrate methodologically how annualization works. Additionally, all ecological outcomes are presented as the net effect of restoration actions over the future without project condition, which is frequently called "ecological lift."
-
-```{r}
-#BENEFIT ANNUALIZATION
-#Specify temporal assessment points for analysis
-time <- c(0,2,10,50)
-
-#Loop over each site and alternative annualizing outcomes
-AAHU <- data.frame(matrix(NA, nrow=nactions.total, ncol=7))
-colnames(AAHU) <- c("ReachID", "SiteAction", "RipL", "RipR", "Ins", "Total", "Lift")
-
-#Populate with site and alternative names
-AAHU$ReachID <- cost$ReachID
-AAHU$SiteAction <- cost$SiteAction
-
-for(i in 1:nactions.total){
-  #Isolate the correct site and alternative
-  site.alt.temp <- which(eco$ReachID == AAHU$ReachID[i] & eco$SiteAction == AAHU$SiteAction[i] & eco$HydroAction == "None")
-  
-  #Annualize benefits (first removing NAs)
-  AAHU$RipL[i] <- annualizer(time, as.numeric(eco$REFI_HU_left[site.alt.temp]))
-  AAHU$RipR[i] <- annualizer(time, as.numeric(eco$REFI_HU_right[site.alt.temp]))
-  AAHU$Ins[i] <- annualizer(time, as.numeric(eco$UIM_HU[site.alt.temp]))
-  AAHU$Total[i] <- sum(AAHU$RipL[i], AAHU$RipR[i], AAHU$Ins[i])
-}
-
-#Loop over each site calculating lift
-for(i in 1:nsites){
-  #Isolate the location of all actions for this site
-  sites.AAHU.temp <- which(AAHU$ReachID == sites[i])
-  
-  #Isolate the location of the FWOP for this site
-  FWOP.temp <- which(AAHU$ReachID == sites[i] & AAHU$SiteAction == "FWOP")
-  
-  #Compute lift
-  AAHU$Lift[sites.AAHU.temp] <- AAHU$Total[sites.AAHU.temp] - AAHU$Total[FWOP.temp]
-}
-
-##########
-#SHOW AN EXAMPLE OF A TIME SERIES (17F)
-
-#Create plot to present annualization data
-jpeg(filename="Utoy_Annualization.jpeg", width = 6, height = 6, units = "in", res = 400)
-
-#Create the shell of the plot
-plot(c(0, 1), c(0, 1), type = "n", 
-     xlim = c(0,50), ylim = c(0,10), axes = FALSE, 
-     xlab="Time (years)", ylab="Ecological Benefit (Habitat Units)", main="")
-axis(1)
-axis(2, at = axTicks(2), labels = prettyNum(axTicks(2), big.mark = ",", scientific = FALSE), las = 0, cex.axis = 0.75, tick = TRUE)
-
-#Turn on grid lines
-grid(); box()
-
-#Add FWOP
-lines(c(0,2,10,50), eco$Utoy_HU[1:4], lwd = 2, col="black")
-points(c(0,2,10,50), eco$Utoy_HU[1:4], pch = 19, cex = 1, col = "black")
-
-#Add Alternative 1
-lines(c(0,2,10,50), eco$Utoy_HU[5:8], lwd = 2, col="blue")
-points(c(0,2,10,50), eco$Utoy_HU[5:8], pch = 19, cex = 1, col = "blue")
-
-#Add legend
-legend("bottomleft", legend = c("FWOP", "Alterantive 1"), lwd = 2, col = c("black", "blue"), bg = "white")
-
-#Turn off plot device
-dev.off()
 ```
 
 
-![*Figure 3. Example of annualization of ecological benefits for Utoy Creek Site-17F.*](Utoy_Annualization.jpeg)
 
-## *Monetary Costs*
+## *Riparian Ecosystem Function Index (REFI)*
 
-Cost estimates were compiled for each site-scale restoration action following standard cost engineering and real estate methods. Project first cost currently represents a rough-order-of-magnitude estimate inclusive of real estate, restoration actions, pre-construction engineering and design, construction management, monitoring, and adaptive management. Monitoring and adaptive management are currently assumed to comprise 5% of total project first cost and spread over a ten-year window. Interest during construction was computed based on project first costs minus the 5% for monitoring and adaptive management with an assumed construction duration of 12-months for all actions. The FY24 Federal discount rate (2.75%) was used to annualize project first cost, interest during construction, and monitoring and adaptive management expenses over a 50-year planning horizon. Cost data were annualized using the [EngrEcon](https://cran.r-project.org/web/packages/EngrEcon/index.html) software package, although a [web application](https://wrises.shinyapps.io/engrecon-webapp/) also exists for conducting these calculations. Table 3 provides an example of cost estimates for Site-17F.
-
-```{r}
-#COST ANNUALIZATION
-
-#Set federal discont rate for water resources projects in FY24
-discount <- 0.0275
-
-##########
-#Create a data frame with all PRESENT VALUE costs
-cost_present <- data.frame(matrix(NA, nrow=nactions.total, ncol=7))
-colnames(cost_present) <- c("ReachID", "SiteAction", "ProjectFirst", "Monitoring", "AdMan", "IDC", "OM")
-
-  #Populate some values from input data
-  cost_present$ReachID <- cost$ReachID
-  cost_present$SiteAction <- cost$SiteAction
-  cost_present$ProjectFirst <- cost$Project_First
-  cost_present$Monitoring <- cost$Monitoring
-  cost_present$AdMan <- cost$AdMan
-  
-  #Loop over each alternative to compute IDC
-  for (i in 1:nactions.total){
-    cost_present$IDC[i] <- ifelse(cost$Duration_mo[i]==0, 0, interest_during_construction(discount, cost$Duration_mo[i], cost$Project_First[i]))
-  }
-  
-  #Compute present value O&M cost
-  cost_present$OM <- annual_to_present(discount, 50, cost$OM_Annual)
-
-##########
-#Create a data frame with all ANNUALIZED costs
-cost_ann <- data.frame(matrix(NA, nrow=nactions.total, ncol=8))
-colnames(cost_ann) <- c("ReachID", "SiteAction", "ProjectFirst", "Monitoring", "AdMan", "IDC", "OM", "Total")
-
-  #Populate some values from input data
-  cost_ann$ReachID <- cost$ReachID
-  cost_ann$SiteAction <- cost$SiteAction
-  cost_ann$OM <- cost$OM_Annual
-  
-  #Annualize project first cost and IDC over 50 year horizon
-  cost_ann$ProjectFirst <- present_to_annual(discount, 50, cost$Project_First)
-  cost_ann$IDC <- present_to_annual(discount, 50, cost_present$IDC)
-  
-  #Annualize monitoring and adaptive management over 10 year horizon
-  cost_ann$Monitoring <- present_to_annual(discount, 10, cost$Monitoring)
-  cost_ann$AdMan <- present_to_annual(discount, 10, cost$AdMan)
-  
-  #Sum annualized costs
-  cost_ann$Total <- cost_ann$ProjectFirst + cost_ann$Monitoring + cost_ann$AdMan + cost_ann$IDC + cost_ann$OM
-  
-##########
-#SHOW AN EXAMPLE SITE (17F)
-Table03 <- cbind(cost$ReachID, cost$SiteAction, cost$Duration_mo,
-                 formatC(cost$Project_First, format="f", digits=0, big.mark = ","),
-                 formatC(cost$Monitoring, format="f", digits=0, big.mark = ","),
-                 formatC(cost$AdMan, format="f", digits=0, big.mark = ","),
-                 formatC(cost$OM_Annual, format="f", digits=0, big.mark = ","),
-                 formatC(cost_ann$Total, format="f", digits=0, big.mark = ","))
-Table03 <- Table03[1:4,]
-colnames(Table03) <- c("Site", "Alternative", "Construction Duration (mo)", 
-                       "Project First Cost", "Monitoring Cost", "Adapative Management Cost",
-                       "OMRRR Cost", "Total Annualized Cost")
-rownames(Table03) <- NULL
-knitr::kable(Table03, caption="Table 3. Example of monetary cost data for Site-17F.", align='c') 
-```
-
-
-## *Summary of Inputs to CEICA*
-
-Non-monetary ecological benefits and monetary investment costs provide the primary inputs to CEICA. This chapter has examined the methods by which these outcomes were obtained, although other portions of the feasibility report provide greater detail. Table 4 summarizes the benefits and costs of all restoration actions at all sites considered in this analysis. **Is there anything interesting to say about trends in these outcomes at this stage?**
-
-```{r}
-#SEND OUTPUT TABLE
-Table04 <- cbind(AAHU$ReachID, AAHU$SiteAction,
-                 formatC(AAHU$Total, format="f", digits=1, big.mark = ","), 
-                 formatC(AAHU$Lift, format="f", digits=1, big.mark = ","), 
-                 formatC(cost_present$ProjectFirst, format="f", digits=0, big.mark = ","), 
-                 formatC(cost_ann$Total, format="f", digits=0, big.mark = ","))
-colnames(Table04) <- c("Site", "Alternative", "Ecological Outputs (AAHU)", "Ecological Lift (AAHU)", "Project First Cost", "Annualized Cost")
-rownames(Table04) <- NULL
-knitr::kable(Table04, caption="Table 4. Summary of benefit and cost inputs for each site-scale alternative.", align='c') 
-```
-
-
-# **3. Site-by-site analysis**   
-
-**RESUME EDITING HERE.** In this section, yada yada yada. Blah, blah, blah.  
-
-Cost-effectiveness analysis provides a mechanism for examining the efficiency of alternative actions (Robinson et al. 1995). For any given level of investment, the agency wants to identify the plan with the most return-on-investment (i.e., the most environmental benefits for a given level of cost or the least cost for a given level of environmental benefit). An "efficiency frontier" identifies all plans that efficiently provide benefits on a *per cost basis*. 
-
-
-Incremental cost analysis is conducted on the set of cost-effective plans. This technique sequentially compares each plan to all higher cost plans to reveal changes in unit cost as output levels increase and eliminates plans that do not efficiently provide benefits on an *incremental unit cost basis*. Specifically, this analysis examines the slope of the cost-effectiveness frontier to isolate how the unit cost ($/unit) increases as the magnitude of environmental benefit increases. Incremental cost analysis is ultimately intended to inform decision-makers about the consequences of increasing unit cost when increasing benefits (i.e., each unit becomes more expensive). Plans emerging from incremental cost analysis efficiently accomplish the objective relative to unit costs and are typically referred to as "best buys." Importantly, all "best buys" are cost-effective, but all cost-effective plans are not best buys. 
-
-
-For Utoy Creek, CEICA will ultimately be applied at both the site- and watershed-scales in the feasibility study. However, only watershed scale assessments are presented here for the purpose of site screening. Five separate CEICA analyses are undertaken for: (1) the mainstem Utoy Creek and lower Watershed, (2) North Utoy Creek Watershed, (3) South Utoy Creek Watershed, (4) hydrologic restoration actions, and (5) social outcomes. These sets of actions were separately assessed for multiple reasons. First, a separate prioritization more equitably distributes actions across the watershed and allows the USACE team to see portfolios of actions more clearly emerge. Second, hydrologic and social outcomes relied on different metrics, and separate prioritization facilitates comparison of outcomes in a more comprehensive format. Third, the larger number of sites in Utoy Creek (63 sites) creates numerical limitations to studying portfolios of actions (i.e., 9 * 10^18 potential combinations). Because of this numerical constraint, a maximum five restoration actions were allowed in each portfolio. These four planning sets are presented separately below.  
-
-Conduct CEICA for all sites and store results.
-
-```{r}
-#Create empty list to store CEICA outcomes and alternative names
-CEICA <- list(BB = NULL, ProjectFirst = NULL, altnames.BB = NULL, ProjectFirst.BB = NULL)
-
-#Conduct CEICA
-for(i in 1:8){
-#for(i in 1:nsites){
-  #Isloate the site for this analysis
-  sites.temp <- which(AAHU$ReachID == sites[i])
-  alt.temp <- AAHU$SiteAction[sites.temp]
-  lift.temp <- AAHU$Lift[sites.temp]
-  cost.temp <- cost_ann$Total[sites.temp]
-  cost.temp.first <- cost_present$ProjectFirst[sites.temp]
-
-  #Conduct CEICA
-  CE.temp <- CEfinder(lift.temp, cost.temp)
-  BB.temp <- BBfinder(lift.temp, cost.temp, CE.temp)
-  
-  #Save BB names and total project first cost
-  BB.names.temp <- c()
-  BB.cost.total.temp <- c()
-  for(j in 1:length(BB.temp[[2]][,1])){
-    BBfinder <- which(lift.temp == BB.temp[[2]][j,1] & cost.temp == BB.temp[[2]][j,2])
-    BB.names.temp[j] <- paste(sites[i], BBfinder, alt.temp[BBfinder], sep=".")
-    BB.cost.total.temp[j] <- cost.temp.first[BBfinder]
-  }
-
-  #Make CEICA summary figure
-  outputfig.temp <- paste("CEICA.", sites[i],".jpeg", sep="")
-  CEICAplotter(alt.temp, lift.temp, cost.temp, CE.temp, BB.temp[[1]][,4], outputfig.temp)
-
-  #Store results
-  CEICA$BB[[i]] <- BB.temp
-  CEICA$ProjectFirst[[i]] <- cost.temp.first
-  CEICA$altnames.BB[[i]] <- BB.names.temp
-  CEICA$ProjectFirst.BB[[i]] <- BB.cost.total.temp
-}
-```
-
-
-## *Site 17F*
-
-This is just placeholder text. Describe the site and alternatives.  
-
-- Alternative1: Insert text.  
-- Alternative2: Insert text.  
-- Alternative3: Insert text.
-
-
-![*CEICA Summary for 17F.*](CEICA.17F.jpeg)
-
-```{r}
-#Select site to display
-i<-1
-
-#Display incremental cost results
-BB.output.temp.names <- c("Alt", "Lift (AAHU)", "Avg Ann Cost", "Inc Unit Cost","Project First Cost")
-BB.output.temp <- cbind(CEICA$altnames.BB[[i]], formatC(CEICA$BB[[i]][[2]][,1], format="f", digits=2, big.mark = ","),
-                        formatC(CEICA$BB[[i]][[2]][,2], format="f", digits=0, big.mark = ","),
-                        formatC(CEICA$BB[[i]][[2]][,3], format="f", digits=0, big.mark = ","),
-                        formatC(CEICA$ProjectFirst.BB[[i]], format="f", digits=0, big.mark = ","))
-colnames(BB.output.temp) <- BB.output.temp.names
-knitr::kable(BB.output.temp, caption="Incremental cost summary.", align='c') 
-
-#Display cost-effectiveness results
-CE.output.temp.names <- c("Alt", "Lift (AAHU)", "Avg Ann Cost", "Unit Cost","Project First Cost", "CE?", "BB?")
-CE.output.temp <- cbind(alts[[i]], formatC(CEICA$BB[[i]][[1]][,1], format="f", digits=2, big.mark = ","),
-                        formatC(CEICA$BB[[i]][[1]][,2], format="f", digits=0, big.mark = ","),
-                        formatC(CEICA$BB[[i]][[1]][,2]/CEICA$BB[[i]][[1]][,1], format="f", digits=2, big.mark = ","),
-                        formatC(CEICA$ProjectFirst[[i]], format="f", digits=2, big.mark = ","),
-                        CEICA$BB[[i]][[1]][,3], CEICA$BB[[i]][[1]][,4])
-colnames(CE.output.temp) <- CE.output.temp.names
-knitr::kable(CE.output.temp, caption="Cost-effectiveness summary.", align='c') 
-```
-
-
-## *Site 17M*
-
-This is just placeholder text. Describe the site and alternatives.  
-
-- Alternative1: Insert text.  
-- Alternative2: Insert text.  
-- Alternative3: Insert text.
-
-
-![*CEICA Summary for 17M.*](CEICA.17M.jpeg)
+Insert description of REFI. This can be shorter since it is documented elsewhere.
 
 
 ```{r}
-#Select site to display
-i<-2
+# #RIPARIAN OUTCOMES
+# #Riparian models are taken from the Riparian Ecological Functions Index (Wiest et al, in review).
+# 
+# #REFI instream outcomes
+#   eco$REFI_Instream_left <- (eco$Watershed_Runoff_left + eco$Hydrologic_Connection_left + eco$Streambank_Processes_left +
+#                            eco$Energy_Nutrients_Sediment_left + eco$Riparian_Filtering_left) / 5 / 15
+#   eco$REFI_Instream_right <- (eco$Watershed_Runoff_right + eco$Hydrologic_Connection_right + eco$Streambank_Processes_right +
+#                            eco$Energy_Nutrients_Sediment_right + eco$Riparian_Filtering_right) / 5 / 15
+# #REFI habitat outcomes
+#   eco$REFI_Habitat_left <- (eco$Plant_Community_left + eco$Canopy_Habitat_left + eco$Understory_Habitat_left +
+#                            eco$Floor_Habitat_left + eco$Stream_Habitat_left) / 5 / 15
+#   eco$REFI_Habitat_right <- (eco$Plant_Community_right + eco$Canopy_Habitat_right + eco$Understory_Habitat_right +
+#                            eco$Floor_Habitat_right + eco$Stream_Habitat_right) / 5 / 15
+# #REFI connectivity outcomes
+#   eco$REFI_Connectivity_left <- (eco$Lateral_Processes_left + eco$Longitudinal_Movement_Habitat_left) / 2 / 15
+#   eco$REFI_Connectivity_right <- (eco$Lateral_Processes_right + eco$Longitudinal_Movement_Habitat_right) / 2 / 15
+# #REFI total index
+#   eco$REFI_Total_left <- (eco$REFI_Instream_left + eco$REFI_Habitat_left + eco$REFI_Connectivity_left) / 3
+#   eco$REFI_Total_right <- (eco$REFI_Instream_right + eco$REFI_Habitat_right + eco$REFI_Connectivity_right) / 3
+# #REFI habitat units
+#   eco$REFI_HU_left <- eco$REFI_Total_left * eco$Riparian_Area_ac_left
+#   eco$REFI_HU_right <- eco$REFI_Total_right * eco$Riparian_Area_ac_right
+#   eco$REFI_HU_total <- eco$REFI_HU_left + eco$REFI_HU_right
 
-#Display incremental cost results
-BB.output.temp <- cbind(CEICA$altnames.BB[[i]], formatC(CEICA$BB[[i]][[2]][,1], format="f", digits=2, big.mark = ","),
-                        formatC(CEICA$BB[[i]][[2]][,2], format="f", digits=0, big.mark = ","),
-                        formatC(CEICA$BB[[i]][[2]][,3], format="f", digits=0, big.mark = ","),
-                        formatC(CEICA$ProjectFirst.BB[[i]], format="f", digits=0, big.mark = ","))
-colnames(BB.output.temp) <- BB.output.temp.names
-knitr::kable(BB.output.temp, caption="Incremental cost summary.", align='c') 
-
-#Display cost-effectiveness results
-CE.output.temp <- cbind(alts[[i]], formatC(CEICA$BB[[i]][[1]][,1], format="f", digits=2, big.mark = ","),
-                        formatC(CEICA$BB[[i]][[1]][,2], format="f", digits=0, big.mark = ","),
-                        formatC(CEICA$BB[[i]][[1]][,2]/CEICA$BB[[i]][[1]][,1], format="f", digits=2, big.mark = ","),
-                        formatC(CEICA$ProjectFirst[[i]], format="f", digits=2, big.mark = ","),
-                        CEICA$BB[[i]][[1]][,3], CEICA$BB[[i]][[1]][,4])
-colnames(CE.output.temp) <- CE.output.temp.names
-knitr::kable(CE.output.temp, caption="Cost-effectiveness summary.", align='c') 
 ```
 
-## *Site 17D*
 
-This is just placeholder text.
+## *Model Testing and Evaluation*
 
-## *Site 17E*
+Insert brief description of model testing. Compare REFI with spreadsheet. Compare UIM with spreadsheet.
 
-This is just placeholder text.
-
-## *Site 17C*
-
-This is just placeholder text.
-
-## *Site 17B*
-
-This is just placeholder text.
-
-## *Site 2A*
-
-This is just placeholder text.
-
-## *Site 2B*
-
-This is just placeholder text.
-
-## *Site 3A*
-
-This is just placeholder text.
-
-## *Site 3D*
-
-This is just placeholder text.
-
-## *Site 3E*
-
-This is just placeholder text.
-
-
-## *Site 3F*
-
-This is just placeholder text.
-
-## *Site 19A*
-
-This is just placeholder text.
-
-## *Site 25B*
-
-This is just placeholder text.
-
-## *Site 1C*
-
-This is just placeholder text.
-
-## *Site 1D*
-
-This is just placeholder text.
-
-## *Site 1E*
-
-This is just placeholder text.
-
-## *Site 1H*
-
-This is just placeholder text.
-
-## *Site 1I*
-
-This is just placeholder text.
-
-## *Site 1J*
-
-This is just placeholder text.
-
-## *Site 5G*
-
-This is just placeholder text.
-
-## *Site 5H*
-
-This is just placeholder text.
-
-## *Summary of Site Recommendations*
-
-This is just placeholder text.
 
 ```{r}
-#Isolate the recommended alternative at each site (1=FWOP, 2=Alt1, 3=Alt2, 4=Alt3)
-site.recs <- c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
-
+#Code to test models and make a table
 ```
 
 
-# **4. Watershed-scale analysis: Ecological Benefits**   
 
-In this section, yada yada yada. Blah, blah, blah.  
+# **3. Model Application**   
 
-# **5. Watershed-scale analysis: Social Benefits**   
+Describe model application in Utoy Creek to obtain ecological benefits.
 
-In this section, yada yada yada. Blah, blah, blah.  
 
-# **6. Summary of Recommendations**   
+
+# **4. Summary of Ecological Outputs for Utoy Creek**   
 
 In this section, yada yada yada. Blah, blah, blah.  
 
