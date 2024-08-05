@@ -48,10 +48,10 @@ library(viridis)
 #IMPORT ALL UTOY DATA
 
 #Import ecological modeling inputs
-eco <- read.csv("Utoy_Phase 2_EcoInputs_2024-08-04_EcoIn.csv", header=TRUE, dec=".", na.strings="NA", stringsAsFactors = FALSE)
+eco <- read.csv("Utoy_Phase 2_EcoInputs_2024-08-05_EcoIn.csv", header=TRUE, dec=".", na.strings="NA", stringsAsFactors = FALSE)
 
 #Import cost data inputs
-cost <- read.csv("Utoy_Phase 2_EcoInputs_2024-08-04_CostIn.csv", header=TRUE, dec=".", na.strings="NA", stringsAsFactors = FALSE)
+cost <- read.csv("Utoy_Phase 2_EcoInputs_2024-08-05_CostIn.csv", header=TRUE, dec=".", na.strings="NA", stringsAsFactors = FALSE)
 ```
 
 
