@@ -3,15 +3,15 @@ title: 'Ecological Modeling for Utoy Creek Watershed Restoration'
 author: "Liya Abera, Garrett Menichino, and Kyle McKay"
 date: "August 2024"
 output:
-  word_document:
-    toc: yes
-    toc_depth: '5'
   html_document:
     toc: yes
     toc_depth: 5
     toc_float:
       collapsed: no
       smooth_scroll: yes
+  word_document:
+    toc: yes
+    toc_depth: '5'
 ---
 
 
@@ -147,7 +147,7 @@ The other metric is bankfull flow condition (i.e., velocity and cross-sectional 
 As a reference condition for the Utoy Creek study, bankfull geometry data were assembled from an existing study of Piedmont streams in Georgia (Pruitt 2001). For the velocity metric, the difference of the velocity between the reference curve and the site was (i.e., if the site velocity is greater than twice the reference velocity, the velocity metric is zero; or Equation 3.1 was used).
 
 $$I_{vel} = \begin{pmatrix} 0 & V_{site}>2V_{ref}\\
-\frac{|V_{ref} - V_{site}|}{V_{ref}} & V_{site}<2V_{ref}
+1-\frac{|V_{ref} - V_{site}|}{V_{ref}} & V_{site}<2V_{ref}
 \end{pmatrix}$$ 
 
 Where $Velocity$ is an overarching index of ecosystem quality relative to channel velocity, $V_{ref}$ is the reference velocity from the regional curve, and $V_{site}$ is the site velocity at Utoy Creek. 
@@ -155,7 +155,7 @@ Where $Velocity$ is an overarching index of ecosystem quality relative to channe
 For the area (bankfull geomorphic condition) metric, the deviation from the reference curve was used as the primary metric score (Equation 3.2). 
 
 $$I_{area} = \begin{pmatrix} 0 & A_{bk,site}>2A_{bk,ref}\\
-\frac{|A_{bk,ref} - A_{bk,site}|}{A_{bk,ref}} & A_{bk,site}<2A_{bk,ref}
+1-\frac{|A_{bk,ref} - A_{bk,site}|}{A_{bk,ref}} & A_{bk,site}<2A_{bk,ref}
 \end{pmatrix}$$ 
 
 Where $Area_{geo}$ is an overarching index of ecosystem quality relative to channel bankfull area, $A_{bk,ref}$ is the reference cross-sectional area from the regional curve, and $A_{bk,site}$ is the site cross-sectional area at Utoy Creek. 
